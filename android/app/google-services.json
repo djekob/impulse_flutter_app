@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1058217172966",
+    "firebase_url": "https://impulse-d9655.firebaseio.com",
+    "project_id": "impulse-d9655",
+    "storage_bucket": "impulse-d9655.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058217172966:android:3d25dc14f35707f4",
+        "android_client_info": {
+          "package_name": "com.impulse.impulse_flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058217172966-c0qdqo4pj8rn4msaem49uurn5vm4u75i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_8wrCGGRkRVTQ6UkFGi_mQBQwnZiWTRQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
