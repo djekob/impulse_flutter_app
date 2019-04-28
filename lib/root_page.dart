@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:impulse_flutter_app/user.dart';
 import 'login_signup_page.dart';
 import 'authentication.dart';
 import 'inbox_page.dart';
@@ -22,6 +24,7 @@ enum AuthStatus {
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   String _userId = "";
+  User user;
 
   @override
   void initState() {

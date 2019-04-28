@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:impulse_flutter_app/user.dart';
 import 'authentication.dart';
 import 'change_profile_picture_screen.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({Key key, this.auth, this.userId, this.onSignedOut})
+  SettingsPage({Key key, this.auth, this.userId, this.onSignedOut, this.user})
       : super(key: key);
 
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final String userId;
+  final User user;
 
   @override
-  State<StatefulWidget> createState() => new _SettingsPageState(key, auth, userId);
+  State<StatefulWidget> createState() => new _SettingsPageState(key, auth, userId, user);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  _SettingsPageState(Key key, this.auth, this.userId);
+  _SettingsPageState(Key key, this.auth, this.userId, this.user);
 
   final BaseAuth auth;
   final String userId;
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
             builder: (context) => new ChangeProfilePictureScreen(
               userId: userId,
               auth: auth,
+              user: user,
           )
     ));
 

@@ -1,22 +1,32 @@
 import 'package:firebase_database/firebase_database.dart';
 
 class User {
-  String name;
-  String email;
-  String userId;
+  String _name;
+  String _email;
+  String _userId;
+  String _profilePictureUrl;
 
-  User(this.name, this.userId, this.email);
+  String get name => _name;
+  String get email => _email;
+  String get userId => _userId;
+  String get profilePictureUrl => _profilePictureUrl;
+
+  User(this._name, this._userId, this._email, this._profilePictureUrl);
+
+
 
   User.fromSnapshot(DataSnapshot snapshot) :
-        userId = snapshot.value["userId"],
-        name = snapshot.value["name"],
-        email = snapshot.value["email"];
+        _userId = snapshot.value["userId"],
+        _name = snapshot.value["name"],
+        _email = snapshot.value["email"],
+        _profilePictureUrl = snapshot.value["profilePictureUrl"];
 
   toJson() {
     return {
-      "userId": userId,
-      "email": email,
-      "name": name,
+      "userId": _userId,
+      "email": _email,
+      "name": _name,
+      "profilePictureUrl": _profilePictureUrl
     };
   }
 }

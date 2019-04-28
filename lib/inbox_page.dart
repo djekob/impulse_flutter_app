@@ -5,6 +5,7 @@ import 'package:impulse_flutter_app/settings_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'authentication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'user.dart';
 
 class InboxPage extends StatefulWidget {
 
@@ -22,8 +23,8 @@ class InboxPage extends StatefulWidget {
 class _InboxPageState extends State<InboxPage> {
 
   final BaseAuth auth;
+  User user;
   final VoidCallback onSignedOut;
-
   _InboxPageState(this.auth, this.onSignedOut, this.userId);
 
   final String userId;
@@ -33,9 +34,24 @@ class _InboxPageState extends State<InboxPage> {
 
   final _conversationsDatabase = Firestore.instance.collection("conversations");
 
+  Future<void> getUserData() {
+    String email;
+    String profilePictureUrl;
+
+    var _database  = Firestore.instance.collection('users');
+    _database.where('uid', isEqualTo: userId).getDocuments().then(
+            (data) {
+          email = data.documents[0]['email'];
+          profilePictureUrl = data.documents[0]['profilePictureUrl'];
+          user = new User(null, userId, email, profilePictureUrl);
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
+    getUserData();
     checkPermissions();
 
     var snapshots= Firestore.instance.collection("users").snapshots();
@@ -117,7 +133,8 @@ class _InboxPageState extends State<InboxPage> {
         new SettingsPage(
           userId: userId,
           auth: auth,
-          onSignedOut: onSignedOut,)
+          onSignedOut: onSignedOut,
+          user: user)
     ));
   }
 

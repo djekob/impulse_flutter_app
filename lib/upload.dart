@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class Upload {
+class UploadDownload {
 
   Future uploadFile(String fileName, String filePath, String type, String extension) async {
 
@@ -15,5 +15,11 @@ class Upload {
     );
 
     storageUploadTask.resume();
+  }
+
+  Future<String> downloadFile(String fileName) async {
+    final StorageReference storageReference = FirebaseStorage.instance.ref().child(fileName);
+    var url = await storageReference.getDownloadURL();
+    return url;
   }
 }

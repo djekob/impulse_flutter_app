@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'user.dart';
 import 'upload.dart';
 import 'package:flutter/material.dart';
 import 'login_signup_page.dart';
@@ -10,31 +10,33 @@ import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 
 class ChangeProfilePictureScreen extends StatefulWidget {
-  ChangeProfilePictureScreen({Key key, this.auth, this.userId, this.onSignedOut})
+  ChangeProfilePictureScreen({Key key, this.auth, this.userId, this.onSignedOut, this.user})
       : super(key: key);
 
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final String userId;
+  final User user;
 
   @override
-  State<StatefulWidget> createState() => new _ChangeProfilePictureScreenState(key, auth, userId);
+  State<StatefulWidget> createState() => new _ChangeProfilePictureScreenState(key, auth, userId, user);
 }
 
 class _ChangeProfilePictureScreenState extends State<ChangeProfilePictureScreen> {
 
-  _ChangeProfilePictureScreenState(Key key, this.auth, this.userId);
+  _ChangeProfilePictureScreenState(Key key, this.auth, this.userId, this.user);
   final BaseAuth auth;
   final String userId;
+  final User user;
   File _image;
   var image;
+  String downloadLinkUrl;
 
   final _database = Firestore.instance.collection("users");
 
 
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("Profile picture"),
@@ -67,11 +69,16 @@ class _ChangeProfilePictureScreenState extends State<ChangeProfilePictureScreen>
 
     setState(() {
       _image = image;
-      Upload uploadTask = new Upload();
+      UploadDownload uploadTask = new UploadDownload();
 
       String filename = userId + DateTime.now().millisecondsSinceEpoch.toString();
       uploadTask.uploadFile(filename, _image.path, "image", "jpg");
-      _database.where("userId", );
+
+      _database.where('uid', isEqualTo: userId).getDocuments().then(
+              (data) {
+            _database.document(data.documents[0].documentID).updateData({'profilePictureUrl': filename});
+          }
+      );
     });
   }
 
@@ -80,22 +87,37 @@ class _ChangeProfilePictureScreenState extends State<ChangeProfilePictureScreen>
 
     setState(() {
       _image = image;
-      Upload uploadTask = new Upload();
+      UploadDownload uploadTask = new UploadDownload();
 
-      String filename = userId + DateTime.now().toIso8601String();
+      String filename = userId + DateTime.now().millisecondsSinceEpoch.toString();
       uploadTask.uploadFile(filename, _image.path, "image", "jpg");
-      
 
+      _database.where('uid', isEqualTo: userId).getDocuments().then(
+          (data) {
+            _database.document(data.documents[0].documentID).updateData({'profilePictureUrl': filename});
+          }
+      );
+    });
+  }
+
+  Future downloadProfilePic() async {
+    UploadDownload uploadDownload = new UploadDownload();
+    var _downloadLinkUrl = await uploadDownload.downloadFile(user.profilePictureUrl);
+
+    setState(() {
+      downloadLinkUrl = _downloadLinkUrl;
     });
   }
 
   Widget displayProfileImage() {
-
-    if(_image == null) {
+    if(_image == null && downloadLinkUrl == null) {
       return Image.asset("assets/profile-png-icon-1.jpg", height: 240,);
+    } else if(downloadLinkUrl == null) {
+      return Image.network(downloadLinkUrl);
     } else {
-      return Image.file(_image, height: 240);
-      }
+      //Image.network(_image, height: 240);
+      return Image.file(_image, height: 250);
+    }
   }
 
 
