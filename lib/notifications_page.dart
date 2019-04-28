@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_signup_page.dart';
 import 'authentication.dart';
-import 'home_page.dart';
 import 'inbox_page.dart';
 
 class NotificationsPage extends StatefulWidget {

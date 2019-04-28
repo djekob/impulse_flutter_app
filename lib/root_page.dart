@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_signup_page.dart';
 import 'authentication.dart';
-import 'home_page.dart';
 import 'inbox_page.dart';
 
 class RootPage extends StatefulWidget {
@@ -79,6 +78,7 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
+          print("Printing out userId: " + _userId);
           return new InboxPage(
             userId: _userId,
             auth: widget.auth,
