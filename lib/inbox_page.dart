@@ -43,14 +43,14 @@ class _InboxPageState extends State<InboxPage> {
 
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
-            tooltip: 'Settings',
-            onPressed: _openSettings,
-          ),
-          IconButton(
             icon: Icon(Icons.notifications),
             tooltip: 'Notifications',
             onPressed: _openNotifications,
+          ),
+          IconButton(
+            icon: Icon(Icons.settings),
+            tooltip: 'Settings',
+            onPressed: _openSettings,
           ),
         ],
       ),

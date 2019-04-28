@@ -30,11 +30,12 @@ class _SettingsPageState extends State<SettingsPage> {
               )
             ]
         ),
-      body: Center(
-        child: new Text("dit is gewoon een tekst"
-        ),
-      ),
-    );
+      body: new Column(
+        children: <Widget> [
+          new Image.asset('assets/profile-png-icon-1.jpg', height: 140, width: 140),
+          new Text("dit is gewoon een tekst"),
+      ],
+    ));
   }
 
 
