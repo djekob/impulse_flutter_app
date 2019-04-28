@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_signup_page.dart';
 import 'authentication.dart';
-import 'inbox_page.dart';
-import 'dart:async';
+import 'change_profile_picture_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key key, this.auth, this.userId, this.onSignedOut})
@@ -13,10 +11,16 @@ class SettingsPage extends StatefulWidget {
   final String userId;
 
   @override
-  State<StatefulWidget> createState() => new _SettingsPageState();
+  State<StatefulWidget> createState() => new _SettingsPageState(key, auth, userId);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  _SettingsPageState(Key key, this.auth, this.userId);
+
+  final BaseAuth auth;
+  final String userId;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -30,16 +34,34 @@ class _SettingsPageState extends State<SettingsPage> {
               )
             ]
         ),
-      body: new Column(
+      body: new ListView(
         children: <Widget> [
-          new Image.asset('assets/profile-png-icon-1.jpg', height: 140, width: 140),
-          new Text("dit is gewoon een tekst"),
+          ListTile(
+            title: Text("Change profile picture"),
+            onTap: () {
+              _changeProfilePictureScreen();
+            },
+          ),
+          new Text("Made with love"),
       ],
     ));
   }
 
 
 
+  _changeProfilePictureScreen() {
+    print("OnTap: Change profile picture screen");
+
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new ChangeProfilePictureScreen(
+              userId: userId,
+              auth: auth,
+          )
+    ));
+
+  }
 
   _signOut() async {
     try {

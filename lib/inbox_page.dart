@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:impulse_flutter_app/notifications_page.dart';
 import 'package:impulse_flutter_app/record_video_page.dart';
 import 'package:impulse_flutter_app/settings_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'authentication.dart';
-import 'todo.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class InboxPage extends StatefulWidget {
@@ -36,6 +35,9 @@ class _InboxPageState extends State<InboxPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    checkPermissions();
+
     var snapshots= Firestore.instance.collection("users").snapshots();
     return new Scaffold(
       appBar: new AppBar(
@@ -125,6 +127,18 @@ class _InboxPageState extends State<InboxPage> {
       auth: auth,
       onSignedOut: onSignedOut,
     );
+  }
+
+  Future checkPermissions() async {
+    PermissionStatus permissionCamera = await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+    PermissionStatus permissionMicrophone = await PermissionHandler().checkPermissionStatus(PermissionGroup.microphone);
+    PermissionStatus permissionGallery = await PermissionHandler().checkPermissionStatus(PermissionGroup.mediaLibrary);
+
+    if(permissionCamera == PermissionStatus.granted && permissionGallery == PermissionStatus.granted && permissionMicrophone == PermissionStatus.granted) {
+
+    } else {
+      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.camera, PermissionGroup.microphone, PermissionGroup.mediaLibrary]);
+    }
   }
 
   _typeMessage(BuildContext context, senderId, receiverId) async {

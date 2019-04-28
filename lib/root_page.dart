@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_signup_page.dart';
 import 'authentication.dart';
 import 'inbox_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});

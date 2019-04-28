@@ -51,15 +51,21 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
       try {
         if (_formMode == FormMode.LOGIN) {
           userId = await widget.auth.signIn(_email, _password);
+
+
           print('Signed in: $userId');
         } else {
           userId = await widget.auth.signUp(_email, _password);
 
-          _database.add({ //Hier wordt de user gecreeerd in de FIRESTORE (dus niet enkel in de AUTHENTICATION DATABASE
-            "email": _email,
-            "uid": userId,
-            "timestamp": new DateTime.now().millisecondsSinceEpoch
-          });
+          if(userId != null) {
+            _database.add({
+              //Hier wordt de user gecreeerd in de FIRESTORE (dus niet enkel in de AUTHENTICATION DATABASE
+              "email": _email,
+              "uid": userId,
+              "timestamp": new DateTime.now().millisecondsSinceEpoch
+            });
+          }
+
 
           widget.auth.sendEmailVerification();
           _showVerifyEmailSentDialog();
